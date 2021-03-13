@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi_base2.c                                    :+:      :+:    :+:   */
+/*   ft_atoi_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cjenog <cjenog@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 21:15:09 by cjenog            #+#    #+#             */
-/*   Updated: 2021/03/13 21:25:13 by cjenog           ###   ########.fr       */
+/*   Updated: 2021/03/13 21:47:31 by cjenog           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	ft_atoi_base(char *str, char *base)
 	int base_len;
 	int sign;
 
-	sign = 0;
+	sign = 1;
 	if (ft_base_exception(base) == 1)
 		return (0);
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
@@ -79,7 +79,6 @@ int	ft_atoi_base(char *str, char *base)
 	}
 	base_len = ft_len(base);
 	sum = 0;
-	sign = 1;
 	while (ft_sub(*str, base) != -1)
 	{
 		sum *= base_len;
