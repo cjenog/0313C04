@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
+/*   ft_putnbr_base2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cjenog <cjenog@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/04 15:11:54 by cjenog            #+#    #+#             */
-/*   Updated: 2021/03/13 13:23:05 by cjenog           ###   ########.fr       */
+/*   Created: 2021/03/13 17:45:01 by cjenog            #+#    #+#             */
+/*   Updated: 2021/03/13 21:38:40 by cjenog           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,62 +17,62 @@ void	ft_putchar(char c)
 	write(1, &c, 1);
 }
 
-int		ft_len(char *ptr)
+int		ft_len(char *base)
 {
 	int i;
 
 	i = 0;
-	while (ptr[i])
+	while (base[i])
 		i++;
 	return (i);
 }
 
-int		ft_exception(char *ptr)
+void	ft_change(long nbr, int base_len, char *base)
+{
+	if (nbr >= base_len)
+	{
+		ft_change(nbr / base_len, base_len, base);
+		ft_putchar(base[nbr % base_len]);
+	}
+	else
+		ft_putchar(base[nbr % base_len]);
+}
+
+int		ft_exception(char *base)
 {
 	int i;
-	int j;
 
-	i = 0;
-	if (ptr[0] == 0 || ptr[1] == 0)
+	if (base[1] == 0 || base[0] == 0)
 		return (1);
-	while (ptr[i])
+	while (*base != 0)
 	{
-		if (ptr[i] == '-' || ptr[i] == '+' || ptr[i] <= 31 || ptr[i] == 127)
+		i = 1;
+		if (*base == '-' || *base == '+')
 			return (1);
-		j = i + 1;
-		while (ptr[j])
+		while (base[i] != 0)
 		{
-			if (ptr[i] == ptr[j])
+			if (*base == base[i])
 				return (1);
-			j++;
+			i++;
 		}
-		i++;
+		base++;
 	}
 	return (0);
 }
 
 void	ft_putnbr_base(int nbr, char *base)
 {
-	int		i;
-	long	int lnbr;
-	int		len1;
-	char	str[32];
+	int		base_len;
+	long	l_nbr;
 
-	len1 = ft_len(base);
-	if (ft_exception(base))
+	if (ft_exception(base) == 1)
 		return ;
-	i = 0;
-	lnbr = nbr;
-	if (lnbr < 0)
+	l_nbr = nbr;
+	if (l_nbr < 0)
 	{
 		ft_putchar('-');
-		lnbr = -lnbr;
+		l_nbr = -l_nbr;
 	}
-	while (lnbr != 0)
-	{
-		str[i++] = lnbr % len1;
-		lnbr = lnbr / len1;
-	}
-	while (--i >= 0)
-		ft_putchar(base[(int)str[i]]);
+	base_len = ft_len(base);
+	ft_change(l_nbr, base_len, base);
 }
